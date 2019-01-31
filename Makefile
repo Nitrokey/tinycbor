@@ -9,6 +9,8 @@ pkgconfigdir = $(libdir)/pkgconfig
 CFLAGS = -Wall -Wextra
 LDFLAGS_GCSECTIONS = -Wl,--gc-sections
 LDFLAGS = $(if $(gc_sections-pass),$(LDFLAGS_GCSECTIONS))
+CFLAGS += $(CFLAGS_EXTRA)
+LDFLAGS += $(LDFLAGS_EXTRA)
 
 GIT_ARCHIVE = git archive --prefix="$(PACKAGE)/" -9
 INSTALL = install
