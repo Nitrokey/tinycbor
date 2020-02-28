@@ -1335,15 +1335,27 @@ CborError cbor_value_map_find_value(const CborValue *map, const char *string, Cb
                 return preparse_value(element);
         } else {
             /* skip this key */
+            if (!cbor_value_is_valid(element)){
+                err = CborErrorIllegalType;
+                goto error;
+            }
             err = cbor_value_advance(element);
             if (err)
                 goto error;
         }
 
         /* skip this value */
+        if (!cbor_value_is_valid(element)){
+            err = CborErrorIllegalType;
+            goto error;
+        }
         err = cbor_value_skip_tag(element);
         if (err)
             goto error;
+        if (!cbor_value_is_valid(element)){
+            err = CborErrorIllegalType;
+            goto error;
+        }
         err = cbor_value_advance(element);
         if (err)
             goto error;
