@@ -300,7 +300,13 @@ static CborError preparse_value(CborValue *it)
 
 static CborError preparse_next_value_nodecrement(CborValue *it)
 {
-    if (it->remaining == UINT32_MAX && it->ptr != it->parser->end && *it->ptr == (uint8_t)BreakByte) {
+    if(it->ptr >= it->parser->end){
+        return CborErrorAdvancePastEOF;
+    }
+
+    if (it->remaining == UINT32_MAX &&
+        it->ptr < it->parser->end
+        && *it->ptr == (uint8_t)BreakByte) {
         /* end of map or array */
         ++it->ptr;
         it->type = CborInvalidType;
