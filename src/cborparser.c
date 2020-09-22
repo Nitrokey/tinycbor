@@ -523,6 +523,15 @@ static CborError advance_recursive(CborValue *it, int nestingLevel)
  */
 CborError cbor_value_advance(CborValue *it)
 {
+
+#if !defined(CBOR_PARSER_MAX_RECURSIONS)
+#error "CBOR recursion depth not set"
+#endif
+
+#if CBOR_PARSER_MAX_RECURSIONS > 3
+#error "CBOR recursion setting invalid"
+#endif
+
     cbor_assert(it->type != CborInvalidType);
     if (!it->remaining)
         return CborErrorAdvancePastEOF;
